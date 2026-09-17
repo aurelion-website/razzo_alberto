@@ -1,1 +1,14 @@
-Sostituisci index.html e preview.png nella ROOT del repository aurelion-website/razzo_alberto. Fai Commit changes e attendi la pubblicazione. Poi prova WhatsApp con https://aurelion-website.github.io/razzo_alberto/?wa=20260917b
+FIX WHATSAPP — VERSIONE JPEG
+
+Sostituisci nel repository GitHub Pages:
+- index.html
+- preview.jpg
+
+IMPORTANTE:
+- lascia pure preview.png se vuoi, ma non serve più;
+- preview.jpg deve stare nella stessa cartella di index.html.
+
+Dopo il commit, prova:
+https://aurelion-website.github.io/razzo_alberto/?wa=jpg20260917
+
+La preview.jpg è in formato JPEG 1200x630.
