@@ -29,6 +29,14 @@ button{font-size:20px;font-weight:bold;border:0;border-radius:18px;padding:15px 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="🚀 Missione Spaziale">
 <meta name="twitter:description" content="Un gioco spaziale per bambini!"><meta name="twitter:image" content="https://aurelion-website.github.io/razzo_alberto/preview.jpg">
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K1J015B47J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-K1J015B47J');
+</script>
 </head>
 <body>
 <canvas id="game" width="450" height="800"></canvas>
@@ -56,6 +64,22 @@ musicAudio.volume = 0.28;
 explosionAudio.volume = 0.95;
 let audioOn = true;
 
+// Analytics eventi personalizzati.
+function analyticsEvent(name, params={}){
+  if(typeof gtag === "function") gtag("event", name, params);
+}
+
+function analyticsGameOver(){
+  const finalScore=Math.floor(score);
+  analyticsEvent("game_over", {score: finalScore, lives: lives});
+  let previous=0;
+  try{ previous=Number(localStorage.getItem("missione_spaziale_record")||0); }catch(e){}
+  if(finalScore>previous){
+    try{ localStorage.setItem("missione_spaziale_record", String(finalScore)); }catch(e){}
+    analyticsEvent("new_record", {score: finalScore, previous_record: previous});
+  }
+}
+
 function initAudio(){
   audioOn = true;
   musicAudio.play().catch(()=>{});
@@ -63,6 +87,7 @@ function initAudio(){
 
 function testAudio(){
   audioOn = !audioOn;
+  analyticsEvent("audio_toggle", {enabled: audioOn});
   if(audioOn){
     audioBtn.textContent="🔊";
     musicAudio.loop=true;
@@ -87,8 +112,10 @@ function explosionSound(){
 }
 
 audioBtn.addEventListener("click",testAudio);
+analyticsEvent("game_page_open");
 
 function startGame(){
+ analyticsEvent("game_start");
  if(audioOn) musicAudio.play().catch(()=>{}); audioBtn.textContent=audioOn?"🔊":"🔇";
  score=0;lives=3;rocks=[];ship.x=225;playing=true;
  document.querySelector("#menu h1").textContent="🚀 Missione Spaziale";
@@ -98,6 +125,7 @@ function startGame(){
 }
 function over(){
  playing=false;
+ analyticsGameOver();
  document.querySelector("#menu h1").textContent="💥 Missione finita!";
  document.querySelector("#menu p").innerHTML="Punteggio: <b>"+Math.floor(score)+"</b><br>Premi GIOCA per riprovare.";
  document.querySelector("#menu button").textContent="RIGIOCA";
