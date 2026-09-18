@@ -139,12 +139,12 @@ function over(){
 }
 function rock(){
  let r=17+Math.random()*27;
- const edgeMargin=60; rocks.push({x:edgeMargin+r+Math.random()*(W-2*edgeMargin-2*r),y:-45,r:r,v:185+Math.random()*95,a:Math.random()*6});
+ const edgeMargin=25; rocks.push({x:edgeMargin+r+Math.random()*(W-2*edgeMargin-2*r),y:-45,r:r,v:185+Math.random()*95,a:Math.random()*6});
 }
 
 function chaserRock(){
  const r=20+Math.random()*8;
- const edgeMargin=60; chasers.push({x:edgeMargin+r+Math.random()*(W-2*edgeMargin-2*r),y:-45,r:r,vx:0,vy:405,life:18,a:0});
+ const edgeMargin=25; chasers.push({x:edgeMargin+r+Math.random()*(W-2*edgeMargin-2*r),y:-45,r:r,vx:0,vy:405,life:18,a:0});
 }
 function drawChaser(o){
  ctx.save();
