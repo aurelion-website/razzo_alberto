@@ -123,7 +123,7 @@ analyticsEvent("game_page_open");
 function startGame(){
  analyticsEvent("game_start");
  if(audioOn) musicAudio.play().catch(()=>{}); audioBtn.textContent=audioOn?"🔊":"🔇";
- score=0;lives=3;rocks=[];ship.x=225;playing=true; hudScore.textContent="★ 0"; hudLives.textContent="❤❤❤";
+ score=0;lives=3;rocks=[];ship.x=225;playing=true;powerUpUntil=0; hudScore.textContent="★ 0"; hudLives.textContent="❤❤❤";
  document.querySelector("#menu h1").textContent="🚀 Missione Spaziale";
  document.querySelector("#menu p").innerHTML="Aiuta i tre piccoli astronauti a schivare i meteoriti!";
  document.querySelector("#menu button").textContent="GIOCA";
@@ -237,7 +237,12 @@ function update(dt){
  // Fuoco automatico continuo.
  shootTimer-=dt;
  while(shootTimer<=0){
-   bullets.push({x:ship.x,y:ship.y-48,v:400});
+   if(performance.now()<powerUpUntil){
+     bullets.push({x:ship.x-11,y:ship.y-48,v:430});
+     bullets.push({x:ship.x+11,y:ship.y-48,v:430});
+   }else{
+     bullets.push({x:ship.x,y:ship.y-48,v:400});
+   }
    shootTimer+=0.30;
  }
 
@@ -297,6 +302,7 @@ function update(dt){
        chasers.splice(ci,1);
        if(audioOn){ specialExplosionAudio.currentTime=0; specialExplosionAudio.play().catch(()=>{}); }
        score+=60;
+       powerUpUntil=performance.now()+10000;
        break;
      }
    }
